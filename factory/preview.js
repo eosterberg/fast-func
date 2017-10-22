@@ -6,7 +6,13 @@ let preview = ''
 
 var result = Object
 .keys(arraySpec)
-.map(name => loopBasedFunction(name, arraySpec[name]))
+.map(name => {
+  let spec = {
+    ...arraySpec[name],
+    exportStatement: `const ${name} =`
+  }
+  return loopBasedFunction(spec)
+})
 .join('\n')
 
 console.log('======= FastFunc preview: =======\n')

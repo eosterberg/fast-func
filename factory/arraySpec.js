@@ -1,4 +1,5 @@
 const base = {
+  exportStatement: 'module.exports =',
   indexVarName: 'i',
   lengthVarName: 'l',
   argList: ['arr', 'fn']

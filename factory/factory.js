@@ -1,7 +1,7 @@
 const indent2 = str => '  ' + str
 const indent4 = str => '    ' + str
 
-const loopBasedFunction = (name, opts) => {
+const loopBasedFunction = (opts) => {
   let setupVars = []
   let loopBody = opts.loopBody.split('\n')
   if (loopBody.length > 1) {
@@ -28,7 +28,7 @@ const loopBasedFunction = (name, opts) => {
 
   const argList = opts.argList.length > 1 ? `(${opts.argList.join(', ')})` : opts.argList[0]
   const returnStatement = opts.returnStatement ? indent2('return ' + opts.returnStatement + '\n') : ''
-  return `const ${name} = ${argList} => {\n` +
+  return `${opts.exportStatement} ${argList} => {\n` +
   `${loopBody}` +
   `${returnStatement}` +
   `}\n`
