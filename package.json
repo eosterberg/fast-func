@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "jasmine",
-    "compile": "node build/build.js"
+    "compile": "node build/build.js",
+    "benchmark": "node test.js"
   },
   "repository": {
     "type": "git",

@@ -46,3 +46,4 @@ const newTest = (name, impl, input, lambda, lambdaName) => {
 
 newTest('map', fastFunc.map, inputs.longerList, lambdas.lessThan)
 newTest('forEach', fastFunc.forEach, inputs.longerList, lambdas.lessThan)
+newTest('filter', fastFunc.filter, inputs.longerList, lambdas.lessThan)
