@@ -58,6 +58,17 @@ const every = loopBasedFunction({
 
 console.log(every)
 
+const some = loopBasedFunction({
+  functionName: 'some',
+  loopDirection: 'reverse',
+  loopBody: 'if (fn(arr[i])) return true',
+  indexVarName: 'i',
+  argList: ['arr', 'fn'],
+  returnStatement: 'false'
+})
+
+console.log(some)
+
 const forEach = loopBasedFunction({
   functionName: 'forEach',
   loopBody: 'fn(arr[i])',
@@ -80,5 +91,26 @@ const filter = loopBasedFunction({
 
 console.log(filter)
 
+const reduce = loopBasedFunction({
+  functionName: 'reduce',
+  loopBody: 'acc = fn(acc, arr[i])',
+  indexVarName: 'i',
+  lengthVarName: 'l',
+  argList: ['arr', 'fn', 'acc'],
+  returnStatement: 'acc'
+})
+
+console.log(reduce)
+
+const reduceRight = loopBasedFunction({
+  functionName: 'reduceRight',
+  loopDirection: 'reverse',
+  loopBody: 'acc = fn(acc, arr[i])',
+  indexVarName: 'i',
+  argList: ['arr', 'fn', 'acc'],
+  returnStatement: 'acc'
+})
+
+console.log(reduceRight)
 
 module.exports = loopBasedFunction
