@@ -17,6 +17,7 @@
   "license": "MIT",
   "homepage": "https://bitbucket.org/eosterberg/fastfunc#readme",
   "devDependencies": {
-    "benchmark": "^2.1.4"
+    "benchmark": "^2.1.4",
+    "jasmine": "^2.8.0"
   }
 }
