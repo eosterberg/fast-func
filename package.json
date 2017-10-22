@@ -1,0 +1,22 @@
+{
+  "name": "fastfunc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://bitbucket.org/eosterberg/fastfunc.git"
+  },
+  "author": "Erik Österberg",
+  "license": "MIT",
+  "homepage": "https://bitbucket.org/eosterberg/fastfunc#readme",
+  "devDependencies": {
+    "benchmark": "^2.1.4"
+  }
+}

@@ -1,26 +1,48 @@
-const input = [1,2,3,4,5,6,7,8]
-const test_iterations = 1000000
-const test_rounds = 3
+var Benchmark = require('benchmark')
+const fastFunc = require('./dist/fastFunc')
 
-const test = fn => {
-  console.time(fn.name)
-  for (var i = 0; i < test_iterations; i++) {
-    const result = fn(input)
-  }
-  console.timeEnd(fn.name)
+const test_iterations = 1000
+const test_rounds = 1
+
+const sortedList = [1,2,3,4,5,6,7,8,9,10]
+longerList = [].concat.apply([], sortedList.map(_ => sortedList))
+const inputs = {
+  longerList: longerList
 }
 
-const testAll = fns => {
-  for (var i = 0; i < test_rounds; i++) {
-    fns.forEach(test)
-    console.log('')
+const lambdas = {
+  modulo: (i) => i % 2,
+  lessThan: (i) => i < 4
+}
+
+// for (let fnName in fastFunc) {
+//   for (let inpName in inputs) {
+//     for (let lambdaName in lambdas) {
+//       testAFunction(fnName, fastFunc[fnName], inputs[inpName], lambdas[lambdaName], lambdaName)
+//     }
+//   }
+// }
+
+const newTest = (name, impl, input, lambda, lambdaName) => {
+  var suite = new Benchmark.Suite
+
+  if (input[name]) {
+    suite = suite.add(`Native ${name}`, () => {
+      var res = input[name](lambda)
+    })
   }
-  fns.forEach(fn => {
-    console.log(fn.name + ' result: ', JSON.stringify(fn(input)))
+  suite.add(`FastFunc ${name}`, () => {
+    var res = impl(input, lambda)
   })
+  .on('cycle', function(event) {
+    console.log(String(event.target))
+  })
+  .on('complete', function() {
+    console.log('Fastest is ' + this.filter('fastest').map('name'))
+  })
+  // run async
+  .run({ 'async': true })
 }
 
-module.exports = {
-  test,
-  testAll
-}
+newTest('map', fastFunc.map, inputs.longerList, lambdas.lessThan)
+newTest('forEach', fastFunc.forEach, inputs.longerList, lambdas.lessThan)
