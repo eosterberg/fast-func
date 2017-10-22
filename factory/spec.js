@@ -1,8 +1,12 @@
+const exportStatement = 'module.exports ='
+const indentation = 2
+
 const base = {
-  exportStatement: 'module.exports =',
+  exportStatement: exportStatement,
   indexVarName: 'i',
   lengthVarName: 'l',
-  argList: ['arr', 'fn']
+  argList: ['arr', 'fn'],
+  indentation
 }
 
 const reduceBase = {
@@ -12,7 +16,7 @@ const reduceBase = {
   returnStatement: 'acc'
 }
 
-module.exports = {
+const arrayFunctions = {
   map: {
     ...base,
     loopDirection: 'reverse',
@@ -47,4 +51,10 @@ module.exports = {
     ...reduceBase,
     loopDirection: 'reverse'
   }
+}
+
+module.exports = {
+  exportStatement,
+  indentation,
+  functions: arrayFunctions
 }

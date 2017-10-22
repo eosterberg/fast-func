@@ -1,13 +1,37 @@
 const fs = require('fs')
 const path = require('path')
 const util = require('util')
-const arraySpec = require('./arraySpec')
+const spec = require('./spec')
 const factory = require('./factory')
 const loopBasedFunction = factory.loopBasedFunction
+const buildLib = factory.buildLib
 const writeFile = util.promisify(fs.writeFile)
 const removeFile = util.promisify(fs.unlink)
 
 const distPath = path.resolve(__dirname + '/../dist')
+const atDistPath = fileName => path.resolve(distPath + '/' + fileName)
+
+const startBuild = () => {
+  let writeFiles = Object
+  .keys(spec.functions)
+  .map(name => {
+    const fnSpec = spec.functions[name]
+    const code = loopBasedFunction(fnSpec)
+    const filePath = atDistPath(name + '.js')
+    return writeFile(filePath, code)
+  })
+
+  const fastFuncLib = buildLib(spec)
+  writeFiles.push(writeFile(atDistPath('fastFunc.js'), fastFuncLib))
+
+  Promise.all(writeFiles)
+  .then(() => {
+    console.log('success!')
+  }).catch(e => {
+    console.log(e)
+  })
+}
+
 if (!fs.existsSync(distPath)) {
   fs.mkdirSync(distPath)
   startBuild()
@@ -17,26 +41,9 @@ if (!fs.existsSync(distPath)) {
     else {
       Promise.all(
         files
-        .map(f => path.resolve(__dirname + '/../dist/' + f))
+        .map(atDistPath)
         .map(p => removeFile(p))
       ).then(startBuild)
     }
-  })
-}
-
-const startBuild = () => {
-  var writeFiles = Object
-  .keys(arraySpec)
-  .map(name => {
-    const code = loopBasedFunction(arraySpec[name])
-    const fileName = path.resolve(__dirname + '/../dist/' + name + '.js')
-    return writeFile(fileName, code)
-  })
-
-  Promise.all(writeFiles)
-  .then(() => {
-    console.log('success!')
-  }).catch(e => {
-    console.log(e)
   })
 }

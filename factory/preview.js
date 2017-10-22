@@ -1,19 +1,19 @@
-const arraySpec = require('./arraySpec')
+const functions = require('./spec').functions
 const factory = require('./factory')
 const loopBasedFunction = factory.loopBasedFunction
 
 let preview = ''
 
 var result = Object
-.keys(arraySpec)
+.keys(functions)
 .map(name => {
   let spec = {
-    ...arraySpec[name],
+    ...functions[name],
     exportStatement: `const ${name} =`
   }
   return loopBasedFunction(spec)
 })
-.join('\n')
+.join('\n\n')
 
 console.log('======= FastFunc preview: =======\n')
 console.log(result)
