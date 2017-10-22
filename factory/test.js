@@ -4,10 +4,20 @@ const test_iterations = 1000
 const test_rounds = 1
 
 testAFunction = (name, impl, input, lambda, lambdaName) => {
-  let  x = 0, y = 0
   console.log(`===== Testing '${name}' with ${lambdaName} =====`)
 
+  let x = 0
   while (x++ < test_rounds) {
+    let y = 0
+    console.time('fastFunc')
+    while (y++ < test_iterations) {
+      var result = impl(input, lambda)
+    }
+    console.timeEnd('fastFunc')
+  }
+  x = 0
+  while (x++ < test_rounds) {
+    let y = 0
     if (input[name]) {
       console.time('native')
       while (y++ < test_iterations) {
@@ -15,12 +25,8 @@ testAFunction = (name, impl, input, lambda, lambdaName) => {
       }
       console.timeEnd('native')
     }
-    console.time('fastFunc')
-    while (y++ < test_iterations) {
-      var result = impl(input, lambda)
-    }
-    console.timeEnd('fastFunc')
   }
+
   if (input[name]) {
     console.log('native return value:',JSON.stringify(input[name](lambda)))
   }

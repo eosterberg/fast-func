@@ -24,6 +24,13 @@ const arrayFunctions = {
     setupVars: ['out = new Array(i)'],
     returnStatement: 'out'
   },
+  mapIdx: {
+    ...base,
+    loopDirection: 'reverse',
+    loopBody: 'out[i] = fn(arr[i], i)',
+    setupVars: ['out = new Array(i)'],
+    returnStatement: 'out'
+  },
   every: {
     ...base,
     loopDirection: 'reverse',
@@ -48,6 +55,11 @@ const arrayFunctions = {
   },
   find: {
     ...base,
+    loopBody: 'if (fn(arr[i])) return arr[i]'
+  },
+  findUniq: {
+    ...base,
+    loopDirection: 'reverse',
     loopBody: 'if (fn(arr[i])) return arr[i]'
   },
   findIndex: {
