@@ -1,7 +1,7 @@
 const indent2 = str => '  ' + str
 const indent4 = str => '    ' + str
 
-const arrayBasedFunction = opts => {
+const loopBasedFunction = opts => {
   let setupVars = []
   let loopBody = opts.loopBody.split('\n')
   if (loopBody.length > 1) {
@@ -35,7 +35,7 @@ const arrayBasedFunction = opts => {
 }
 
 
-const map = arrayBasedFunction({
+const map = loopBasedFunction({
   functionName: 'map',
   loopDirection: 'reverse',
   loopBody: 'out[i] = fn(arr[i])',
@@ -47,7 +47,7 @@ const map = arrayBasedFunction({
 
 console.log(map)
 
-const every = arrayBasedFunction({
+const every = loopBasedFunction({
   functionName: 'every',
   loopDirection: 'reverse',
   loopBody: 'if (!fn(arr[i])) return false',
@@ -58,7 +58,7 @@ const every = arrayBasedFunction({
 
 console.log(every)
 
-const forEach = arrayBasedFunction({
+const forEach = loopBasedFunction({
   functionName: 'forEach',
   loopBody: 'fn(arr[i])',
   indexVarName: 'i',
@@ -68,5 +68,17 @@ const forEach = arrayBasedFunction({
 
 console.log(forEach)
 
+const filter = loopBasedFunction({
+  functionName: 'filter',
+  loopBody: 'val = arr[i]\nif (fn(val)) out.push(val)',
+  indexVarName: 'i',
+  lengthVarName: 'l',
+  setupVars: ['out = []', 'val'],
+  argList: ['arr', 'fn'],
+  returnStatement: 'out'
+})
 
-module.exports = arrayBasedFunction
+console.log(filter)
+
+
+module.exports = loopBasedFunction
