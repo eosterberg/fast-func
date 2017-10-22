@@ -24,6 +24,12 @@ module.exports = {
     }
     return out
   },
+  find: (arr, fn) => {
+    for (var i = 0, l = arr.length; i < l; i++) if (fn(arr[i])) return arr[i]
+  },
+  findIndex: (arr, fn) => {
+    for (var i = 0, l = arr.length; i < l; i++) if (fn(arr[i])) return i
+  },
   reduce: (arr, fn, acc) => {
     for (var i = 0, l = arr.length; i < l; i++) acc = fn(acc, arr[i])
     return acc

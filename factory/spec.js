@@ -46,6 +46,14 @@ const arrayFunctions = {
     setupVars: ['out = []', 'val'],
     returnStatement: 'out'
   },
+  find: {
+    ...base,
+    loopBody: 'if (fn(arr[i])) return arr[i]'
+  },
+  findIndex: {
+    ...base,
+    loopBody: 'if (fn(arr[i])) return i'
+  },
   reduce: reduceBase,
   reduceRight: {
     ...reduceBase,
