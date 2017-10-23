@@ -12,7 +12,15 @@ const distPath = path.resolve(__dirname + '/../dist')
 const atDistPath = fileName => path.resolve(distPath + '/' + fileName)
 
 const startBuild = () => {
-  const functions = template.functions
+  // filter out flagged non-builds:
+  const functions = Object.entries(template.functions)
+  .filter(entries => entries[1].shouldBuild)
+  .reduce((res, entry) => {
+    res[entry[0]] = entry[1]
+    return res
+  }, {})
+  template.functions = functions
+
   let writeFiles = Object
   .keys(functions)
   .map(name => {

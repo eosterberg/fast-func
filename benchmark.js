@@ -21,6 +21,7 @@ const testAFunction = (template) => new Promise((resolve, reject) => {
 
 const functions = extendWithTestAndBenchmarkFunctions(fastFunc, template.functions)
 const testPromise = Object.values(functions)
+.filter(template => template.shouldBenchmark)
 .reduce((promise, template) => {
   return promise.then(() => {
     return testAFunction(template)

@@ -6,10 +6,12 @@ const functions = extendWithTestAndBenchmarkFunctions(fastFunc, template.functio
 
 describe("FastFunc", () => {
   Object.entries(functions).forEach((name, template) => {
-    it(`${name} should produce similar results as native ${template.compareWith}`, () => {
-      const res1 = template.testFunction
-      const res2 = template.nativeTestFunction
-      expect(res1).toEqual(res2)
-    })
+    if (template.shouldTest) {
+      it(`${name} should produce similar results as native ${template.compareWith}`, () => {
+        const res1 = template.testFunction
+        const res2 = template.nativeTestFunction
+        expect(res1).toEqual(res2)
+      })
+    }
   })
 })

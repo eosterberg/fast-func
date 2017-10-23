@@ -22,7 +22,10 @@ const loopBase = {
   argList: ['arr', 'fn'],
   indentation,
   testInput: testInput.sortedNumberList,
-  testLambda: testLambdas.modulo
+  testLambda: testLambdas.modulo,
+  shouldBuild: true,
+  shouldTest: true,
+  shouldBenchmark: true
 }
 
 const findBase = {
@@ -76,8 +79,8 @@ let functions = {
     compareWith: 'forEach'
   }),
   filter: extendLoopBase({
-    loopBody: 'val = arr[i]\nif (fn(val)) out.push(val)',
-    setupVars: ['out = []', 'val'],
+    loopBody: 'if (fn(arr[i])) out.push(arr[i])',
+    setupVars: ['out = []'],
     returnStatement: 'out',
     compareWith: 'filter'
   }),
