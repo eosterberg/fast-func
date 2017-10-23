@@ -1,7 +1,7 @@
 const exportStatement = 'module.exports ='
 const indentation = 2
 
-const base = {
+const loopBase = {
   exportStatement: exportStatement,
   indexVarName: 'i',
   lengthVarName: 'l',
@@ -16,65 +16,59 @@ const reduceBase = {
   returnStatement: 'acc'
 }
 
-const arrayFunctions = {
-  map: {
-    ...base,
+const extendLoopBase = props => ({...base, ...props})
+const extendReduceBase = props => ({...reduceBase, ...props})
+
+const functions = {
+  map: extendLoopBase({
     loopDirection: 'reverse',
     loopBody: 'out[i] = fn(arr[i])',
     setupVars: ['out = new Array(i)'],
     returnStatement: 'out'
-  },
-  mapIdx: {
-    ...base,
+  }),
+  mapIdx: extendLoopBase({
     loopDirection: 'reverse',
     loopBody: 'out[i] = fn(arr[i], i)',
     setupVars: ['out = new Array(i)'],
     returnStatement: 'out'
-  },
-  every: {
-    ...base,
+  }),
+  every: extendLoopBase({
     loopDirection: 'reverse',
     loopBody: 'if (!fn(arr[i])) return false',
     returnStatement: 'true'
-  },
-  some: {
-    ...base,
+  }),
+  some: extendLoopBase({
     loopDirection: 'reverse',
     loopBody: 'if (fn(arr[i])) return true',
     returnStatement: 'false'
-  },
-  forEach: {
-    ...base,
+  }),
+  forEach: extendLoopBase({
     loopBody: 'fn(arr[i])',
-  },
-  filter: {
-    ...base,
+  }),
+  filter: extendLoopBase({
     loopBody: 'val = arr[i]\nif (fn(val)) out.push(val)',
     setupVars: ['out = []', 'val'],
     returnStatement: 'out'
-  },
-  find: {
-    ...base,
+  }),
+  find: extendLoopBase({
     loopBody: 'if (fn(arr[i])) return arr[i]'
-  },
-  findUniq: {
-    ...base,
+  }),
+  findUniq: extendLoopBase({
     loopDirection: 'reverse',
     loopBody: 'if (fn(arr[i])) return arr[i]'
-  },
-  findIndex: {
-    ...base,
+  }),
+  findIndex: extendLoopBase({
     loopBody: 'if (fn(arr[i])) return i'
-  },
-  reduce: reduceBase,
-  reduceRight: {
+  }),
+  reduce: extendReduceBase({}),
+  reduceRight: extendReduceBase({
     ...reduceBase,
     loopDirection: 'reverse'
-  }
+  })
 }
 
 module.exports = {
   exportStatement,
   indentation,
-  functions: arrayFunctions
+  functions
 }

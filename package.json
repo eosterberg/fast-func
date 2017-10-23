@@ -2,13 +2,13 @@
   "name": "fastfunc",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/fastFunc.js",
   "directories": {
     "lib": "lib"
   },
   "scripts": {
     "test": "jasmine",
-    "compile": "node build/build.js",
+    "compile": "node src/build.js",
     "benchmark": "node benchmark.js"
   },
   "repository": {
