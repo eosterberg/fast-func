@@ -1,19 +1,14 @@
 const Benchmark = require('benchmark')
 const fastFunc = require('./dist/fastFunc')
 const template = require('./src/template')
+const extendWithTestAndBenchmarkFunctions = require('./spec/testPreparations').extendWithTestAndBenchmarkFunctions
 
-const testAFunction = (fnName, fnTemplate) => new Promise((resolve, reject) => {
-  const suite = new Benchmark.Suite
-  const testFn = fnTemplate.testFunction
-  const testInput = fnTemplate.testInput
-
-  suite.add(`Native ${fnTemplate.compareWith}`, () => {
-    const res = testInput[fnTemplate.compareWith](testFn)
+const testAFunction = (template) => new Promise((resolve, reject) => {
+  let suite = new Benchmark.Suite()
+  template.benchmarks.forEach(benchmark => {
+    suite = suite.add(benchmark.label, benchmark.fn)
   })
-  .add(`FastFunc ${fnName}`, () => {
-    const res = fastFunc[fnName](testInput, testFn)
-  })
-  .on('cycle', event => {
+  suite.on('cycle', event => {
     console.log(String(event.target))
   })
   .on('complete', function() {
@@ -24,11 +19,11 @@ const testAFunction = (fnName, fnTemplate) => new Promise((resolve, reject) => {
   .run({async: true})
 })
 
-const functions = template.functions
-const testPromise = Object.keys(functions)
-.reduce((promise, fnName) => {
+const functions = extendWithTestAndBenchmarkFunctions(fastFunc, template.functions)
+const testPromise = Object.values(functions)
+.reduce((promise, template) => {
   return promise.then(() => {
-    return testAFunction(fnName, functions[fnName])
+    return testAFunction(template)
   })
 }, Promise.resolve())
 .then(() => {

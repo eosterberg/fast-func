@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const util = require('util')
-const spec = require('./spec')
+const template = require('./template')
 const factory = require('./factory')
 const loopBasedFunction = factory.loopBasedFunction
 const buildLib = factory.buildLib
@@ -12,16 +12,17 @@ const distPath = path.resolve(__dirname + '/../dist')
 const atDistPath = fileName => path.resolve(distPath + '/' + fileName)
 
 const startBuild = () => {
+  const functions = template.functions
   let writeFiles = Object
-  .keys(spec.functions)
+  .keys(functions)
   .map(name => {
-    const fnSpec = spec.functions[name]
+    const fnSpec = functions[name]
     const code = loopBasedFunction(fnSpec)
     const filePath = atDistPath(name + '.js')
     return writeFile(filePath, code)
   })
 
-  const fastFuncLib = buildLib(spec)
+  const fastFuncLib = buildLib(template)
   writeFiles.push(writeFile(atDistPath('fastFunc.js'), fastFuncLib))
 
   Promise.all(writeFiles)
