@@ -1,49 +1,36 @@
-var Benchmark = require('benchmark')
+const Benchmark = require('benchmark')
 const fastFunc = require('./dist/fastFunc')
+const template = require('./src/template')
 
-const test_iterations = 1000
-const test_rounds = 1
+const testAFunction = (fnName, fnTemplate) => new Promise((resolve, reject) => {
+  const suite = new Benchmark.Suite
+  const testFn = fnTemplate.testFunction
+  const testInput = fnTemplate.testInput
 
-const sortedList = [1,2,3,4,5,6,7,8,9,10]
-longerList = [].concat.apply([], sortedList.map(_ => sortedList))
-const inputs = {
-  longerList: longerList
-}
-
-const lambdas = {
-  modulo: (i) => i % 2,
-  lessThan: (i) => i < 4
-}
-
-// for (let fnName in fastFunc) {
-//   for (let inpName in inputs) {
-//     for (let lambdaName in lambdas) {
-//       testAFunction(fnName, fastFunc[fnName], inputs[inpName], lambdas[lambdaName], lambdaName)
-//     }
-//   }
-// }
-
-const newTest = (name, impl, input, lambda, lambdaName) => {
-  var suite = new Benchmark.Suite
-
-  if (input[name]) {
-    suite = suite.add(`Native ${name}`, () => {
-      var res = input[name](lambda)
-    })
-  }
-  suite.add(`FastFunc ${name}`, () => {
-    var res = impl(input, lambda)
+  suite.add(`Native ${fnTemplate.compareWith}`, () => {
+    const res = testInput[fnTemplate.compareWith](testFn)
   })
-  .on('cycle', function(event) {
+  .add(`FastFunc ${fnName}`, () => {
+    const res = fastFunc[fnName](testInput, testFn)
+  })
+  .on('cycle', event => {
     console.log(String(event.target))
   })
   .on('complete', function() {
     console.log('Fastest is ' + this.filter('fastest').map('name'))
+    console.log('')
+    resolve()
   })
-  // run async
-  .run({ 'async': true })
-}
+  .run({async: true})
+})
 
-newTest('map', fastFunc.map, inputs.longerList, lambdas.lessThan)
-newTest('forEach', fastFunc.forEach, inputs.longerList, lambdas.lessThan)
-newTest('filter', fastFunc.filter, inputs.longerList, lambdas.lessThan)
+const functions = template.functions
+const testPromise = Object.keys(functions)
+.reduce((promise, fnName) => {
+  return promise.then(() => {
+    return testAFunction(fnName, functions[fnName])
+  })
+}, Promise.resolve())
+.then(() => {
+  console.log('All tests completed!')
+})
