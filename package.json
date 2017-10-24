@@ -9,7 +9,8 @@
   "scripts": {
     "test": "jasmine",
     "compile": "node src/build.js",
-    "benchmark": "node benchmark.js"
+    "benchmark": "node benchmark.js",
+    "preview": "node src/preview.js"
   },
   "repository": {
     "type": "git",

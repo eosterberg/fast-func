@@ -22,8 +22,7 @@ const curriedTestFnDirectCall = (template, fastFunc, name) => {
 
 const extendWithTestAndBenchmarkFunctions = (fastFunc, functions) => {
   Object.entries(functions).forEach(entry => {
-    const name = entry[0]
-    const template = entry[1]
+    const [name, template] = entry
     const fastFuncFn = fastFunc[name]
     const nativeCurried = curriedNativeTestFn(template)
     const curried = curriedTestFn(template, fastFunc, name)

@@ -5,11 +5,12 @@ const extendWithTestAndBenchmarkFunctions = require('./testPreparations').extend
 const functions = extendWithTestAndBenchmarkFunctions(fastFunc, template.functions)
 
 describe("FastFunc", () => {
-  Object.entries(functions).forEach((name, template) => {
+  Object.entries(functions).forEach(entry => {
+    const [name, template] = entry
     if (template.shouldTest) {
       it(`${name} should produce similar results as native ${template.compareWith}`, () => {
-        const res1 = template.testFunction
-        const res2 = template.nativeTestFunction
+        const res1 = template.testFunction()
+        const res2 = template.nativeTestFunction()
         expect(res1).toEqual(res2)
       })
     }
