@@ -30,8 +30,10 @@ const startBuild = () => {
     return writeFile(filePath, code)
   })
 
-  const fastFuncLib = buildLib(template)
-  writeFiles.push(writeFile(atDistPath('fastFunc.js'), fastFuncLib))
+  template.libs.forEach(libName => {
+    const libCode = buildLib(libName, template)
+    writeFiles.push(writeFile(atDistPath(libName + '.js'), libCode))
+  })
 
   Promise.all(writeFiles)
   .then(() => {

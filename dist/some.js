@@ -1,4 +1,4 @@
-module.exports = (arr, fn) => {
+export default (arr, fn) => {
   var i = arr.length
   while (i--) if (fn(arr[i])) return true
   return false

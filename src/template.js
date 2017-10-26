@@ -1,4 +1,4 @@
-const exportStatement = 'module.exports ='
+const MAIN_LIB = 'fast-func'
 const indentation = 2
 
 const generateNumList = (size) => {
@@ -16,7 +16,7 @@ const testLambdas = {
 }
 
 const loopBase = {
-  exportStatement: exportStatement,
+  exportStatement: 'export default',
   indexVarName: 'i',
   lengthVarName: 'l',
   argList: ['arr', 'fn'],
@@ -25,7 +25,8 @@ const loopBase = {
   testLambda: testLambdas.modulo,
   shouldBuild: true,
   shouldTest: true,
-  shouldBenchmark: true
+  shouldBenchmark: true,
+  includedInLibs: [MAIN_LIB],
 }
 
 const findBase = {
@@ -106,7 +107,7 @@ let functions = {
 }
 
 module.exports = {
-  exportStatement,
   indentation,
-  functions
+  functions,
+  libs: [MAIN_LIB]
 }

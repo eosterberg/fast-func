@@ -1,56 +1,55 @@
 const createIndenter = (depth, indentation) => s => ' '.repeat(depth * indentation) + s
 
-const loopBasedFunction = (opts) => {
-  const indent1 = createIndenter(1, opts.indentation)
-  const indent2 = createIndenter(2, opts.indentation)
+const loopBasedFunction = (template) => {
+  const indent1 = createIndenter(1, template.indentation)
+  const indent2 = createIndenter(2, template.indentation)
 
   let setupVars = []
-  let loopBody = opts.loopBody.split('\n')
+  let loopBody = template.loopBody.split('\n')
   if (loopBody.length > 1) {
     loopBody = `{\n` + loopBody.map(indent2).join('\n') + '\n' + indent1('}\n')
   } else {
     loopBody = loopBody[0] + '\n'
   }
 
-  if (opts.loopDirection === 'reverse') {
-    setupVars = [opts.indexVarName + ' = ' + opts.argList[0] + '.length']
-    if (opts.setupVars && opts.setupVars.length) {
-      setupVars = setupVars.concat(opts.setupVars)
+  if (template.loopDirection === 'reverse') {
+    setupVars = [template.indexVarName + ' = ' + template.argList[0] + '.length']
+    if (template.setupVars && template.setupVars.length) {
+      setupVars = setupVars.concat(template.setupVars)
     }
     setupVars = indent1('var ') + setupVars.join(', ') + '\n'
-    loopBody = setupVars + indent1(`while (${opts.indexVarName}--) `) + loopBody
+    loopBody = setupVars + indent1(`while (${template.indexVarName}--) `) + loopBody
   } else {
-    setupVars = [opts.indexVarName + ' = 0', opts.lengthVarName + ' = ' + opts.argList[0] + '.length']
-    if (opts.setupVars && opts.setupVars.length) {
-      setupVars = setupVars.concat(opts.setupVars)
+    setupVars = [template.indexVarName + ' = 0', template.lengthVarName + ' = ' + template.argList[0] + '.length']
+    if (template.setupVars && template.setupVars.length) {
+      setupVars = setupVars.concat(template.setupVars)
     }
     setupVars = ('var ') + setupVars.join(', ')
-    loopBody = indent1(`for (${setupVars}; ${opts.indexVarName} < ${opts.lengthVarName}; ${opts.indexVarName}++) `) + loopBody
+    loopBody = indent1(`for (${setupVars}; ${template.indexVarName} < ${template.lengthVarName}; ${template.indexVarName}++) `) + loopBody
   }
 
-  const argList = opts.argList.length > 1 ? `(${opts.argList.join(', ')})` : opts.argList[0]
-  const returnStatement = opts.returnStatement ? indent1('return ' + opts.returnStatement + '\n') : ''
-  return `${opts.exportStatement} ${argList} => {\n` +
+  const argList = template.argList.length > 1 ? `(${template.argList.join(', ')})` : template.argList[0]
+  const returnStatement = template.returnStatement ? indent1('return ' + template.returnStatement + '\n') : ''
+  return `${template.exportStatement} ${argList} => {\n` +
   `${loopBody}` +
   `${returnStatement}` +
   `}`
 }
 
-const buildLib = spec => {
-  const indent1 = createIndenter(1, spec.indentation)
-  const functions = spec.functions
-  const libCode = Object.keys(functions)
-  .map(name => {
-    const fnSpec = functions[name]
+const buildLib = (libName, template) => {
+  const libCode = Object.entries(template.functions)
+  .filter(entries => entries[1].includedInLibs.includes(libName))
+  .map(entries => {
+    const [name, template] = entries
     const code = loopBasedFunction({
-      ...fnSpec,
-      exportStatement: name + ':'
+      ...template,
+      exportStatement: `export const ${name} =`
     })
-    return code.split('\n').map(indent1).join('\n')
+    return code
   })
-  .join(',\n')
+  .join('\n\n')
 
-  return spec.exportStatement + ' {\n' + libCode + '\n}'
+  return libCode
 }
 
 module.exports = {

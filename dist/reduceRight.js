@@ -1,4 +1,4 @@
-module.exports = (arr, fn, acc) => {
+export default (arr, fn, acc) => {
   var i = arr.length
   while (i--) acc = fn(acc, arr[i])
   return acc
