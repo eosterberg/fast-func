@@ -70,6 +70,17 @@ export const forEach = (arr, fn) => {
 }
 
 /**
+ * Like `.forEach`, but also invokes the iteratee with index as
+ * second argument.
+ *
+ * @param {Array} array The array to iterate over.
+ * @param {Function} iteratee The iteratee invoked per element.
+ */
+export const forEachIdx = (arr, fn) => {
+  for (var i = 0, l = arr.length; i < l; i++) fn(arr[i], i)
+}
+
+/**
  * Like native `Array.prototype.filter` except it
  * only invokes the iteratee with each item (not index).
  * It iterates left->right to keep compatibility with native

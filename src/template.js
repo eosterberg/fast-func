@@ -108,6 +108,13 @@ and avoid confusion.`,
     loopBody: 'fn(arr[i])',
     compareWith: 'forEach'
   }),
+  forEachIdx: extendLoopBase({
+    description: `\
+Like \`.forEach\`, but also invokes the iteratee with index as
+second argument.`,
+    loopBody: 'fn(arr[i], i)',
+    compareWith: 'forEach'
+  }),
   filter: extendLoopBase({
     description: `\
 Like native \`Array.prototype.filter\` except it
