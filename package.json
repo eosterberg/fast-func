@@ -1,7 +1,7 @@
 {
   "name": "fastfunc",
   "version": "1.0.0",
-  "description": "",
+  "description": "Fast, simple array functions.",
   "main": "dist/fast-func-umd.js",
   "module": "dist/fast-func.js",
   "directories": {

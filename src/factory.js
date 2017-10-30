@@ -1,5 +1,13 @@
 const createIndenter = (depth, indentation) => s => ' '.repeat(depth * indentation) + s
 
+const fullArgDescription = argType => {
+  switch (argType) {
+    case 'arr': return '{Array} array The array to iterate over.'
+    case 'fn': return '{Function} iteratee The iteratee invoked per element.'
+    case 'acc': return '{*} [accumulator] The initial value.'
+  }
+}
+
 const loopBasedFunction = (template) => {
   const indent1 = createIndenter(1, template.indentation)
   const indent2 = createIndenter(2, template.indentation)
@@ -24,13 +32,22 @@ const loopBasedFunction = (template) => {
     if (template.setupVars && template.setupVars.length) {
       setupVars = setupVars.concat(template.setupVars)
     }
-    setupVars = ('var ') + setupVars.join(', ')
+    setupVars = 'var ' + setupVars.join(', ')
     loopBody = indent1(`for (${setupVars}; ${template.indexVarName} < ${template.lengthVarName}; ${template.indexVarName}++) `) + loopBody
   }
 
+  const description = template.description ?
+  '/**\n' +
+  template.description.split('\n').map(s => ' * ' + s + '\n').join('') +
+  ' *\n' +
+  template.argList.map(s => ' * @param ' + fullArgDescription(s) + '\n').join('') +
+  (template.returnDescription ? ` * @returns ${template.returnDescription}\n` : '') +
+  ' */\n'
+  : ''
+
   const argList = template.argList.length > 1 ? `(${template.argList.join(', ')})` : template.argList[0]
   const returnStatement = template.returnStatement ? indent1('return ' + template.returnStatement + '\n') : ''
-  return `${template.exportStatement} ${argList} => {\n` +
+  return `${description}${template.exportStatement} ${argList} => {\n` +
   `${loopBody}` +
   `${returnStatement}` +
   `}`
