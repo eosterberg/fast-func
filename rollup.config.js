@@ -4,11 +4,15 @@ import babel from 'rollup-plugin-babel'
 // rollup.config.js
 export default {
   input: 'dist/fast-func.js',
-  output: {
+  output: [{
+    file: 'dist/fast-func-iife.js',
+    format: 'iife',
+    name: 'FastFunc'
+  }, {
     file: 'dist/fast-func-umd.js',
     format: 'umd',
     name: 'FastFunc'
-  },
+  }],
   plugins: [
     resolve(),
     babel({
