@@ -2,7 +2,8 @@
   "name": "fastfunc",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/fastFunc.js",
+  "main": "dist/fast-func-umd.js",
+  "module": "dist/fast-func.js",
   "directories": {
     "lib": "lib"
   },
