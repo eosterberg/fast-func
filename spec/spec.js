@@ -1,5 +1,5 @@
 // https://jasmine.github.io/api/2.8/matchers.html
-const fastFunc = require('../dist/fastFunc')
+const fastFunc = require('../dist/fast-func-umd')
 const template = require('../src/template')
 const extendWithTestAndBenchmarkFunctions = require('./testPreparations').extendWithTestAndBenchmarkFunctions
 const functions = extendWithTestAndBenchmarkFunctions(fastFunc, template.functions)

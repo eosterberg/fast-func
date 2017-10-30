@@ -1,5 +1,5 @@
 const Benchmark = require('benchmark')
-const fastFunc = require('./dist/fastFunc')
+const fastFunc = require('./dist/fast-func-umd')
 const template = require('./src/template')
 const extendWithTestAndBenchmarkFunctions = require('./spec/testPreparations').extendWithTestAndBenchmarkFunctions
 
