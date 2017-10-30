@@ -20,7 +20,13 @@
   "license": "MIT",
   "homepage": "https://bitbucket.org/eosterberg/fastfunc#readme",
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-latest": "^6.24.1",
     "benchmark": "^2.1.4",
-    "jasmine": "^2.8.0"
+    "jasmine": "^2.8.0",
+    "rollup": "^0.50.0",
+    "rollup-plugin-babel": "^3.0.2",
+    "rollup-plugin-node-resolve": "^3.0.0"
   }
 }

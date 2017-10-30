@@ -43,18 +43,14 @@ const startBuild = () => {
   })
 }
 
-if (!fs.existsSync(distPath)) {
-  fs.mkdirSync(distPath)
-  startBuild()
-} else {
-  fs.readdir(distPath, (err, files) => {
-    if (err) console.error('No dist dir!')
-    else {
-      Promise.all(
-        files
-        .map(atDistPath)
-        .map(p => removeFile(p))
-      ).then(startBuild)
-    }
-  })
-}
+fs.readdir(distPath, (err, files) => {
+  if (err) console.error('No dist dir!')
+  else {
+    Promise.all(
+      files
+      .filter(f => f !== '.babelrc')
+      .map(atDistPath)
+      .map(p => removeFile(p))
+    ).then(startBuild)
+  }
+})
