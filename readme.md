@@ -12,6 +12,8 @@ On Node.js, Chrome and Safari, performance is about x10 compared with regular ar
 
 `$ npm run benchmark`
 
+See history [here](./benchmark/history)
+
 ## Test
 
 `$ npm test`
