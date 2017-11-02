@@ -13,7 +13,7 @@ saveToHistory = results => {
   const dateTime = new Date().toISOString().split('.')[0]
   const historyPath = path.resolve(__dirname + '/history/' + dateTime)
   fs.writeFile(historyPath, results.join('\n\n'), err => {
-    console.log(err)
+    if (err) console.log(err)
   })
 }
 
