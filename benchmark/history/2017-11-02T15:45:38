@@ -1,0 +1,65 @@
+Native map x 726,407 ops/sec ±0.72% (86 runs sampled)
+FastFunc map x 4,159,289 ops/sec ±0.45% (88 runs sampled)
+FastFunc map, direct call x 4,089,933 ops/sec ±0.72% (86 runs sampled)
+Fastest is FastFunc map
+
+Native map x 719,408 ops/sec ±1.13% (88 runs sampled)
+FastFunc mapIdx x 3,826,851 ops/sec ±0.61% (88 runs sampled)
+FastFunc mapIdx, direct call x 4,022,973 ops/sec ±0.47% (88 runs sampled)
+Fastest is FastFunc mapIdx, direct call
+
+Native every x 12,910,984 ops/sec ±1.13% (82 runs sampled)
+FastFunc every x 81,051,036 ops/sec ±1.12% (82 runs sampled)
+FastFunc every, direct call x 99,897,529 ops/sec ±1.47% (84 runs sampled)
+Fastest is FastFunc every, direct call
+
+Native some x 10,983,741 ops/sec ±1.25% (81 runs sampled)
+FastFunc some x 100,606,146 ops/sec ±1.21% (83 runs sampled)
+FastFunc some, direct call x 131,484,718 ops/sec ±1.21% (81 runs sampled)
+Fastest is FastFunc some, direct call
+
+Native forEach x 777,735 ops/sec ±1.04% (83 runs sampled)
+FastFunc forEach x 7,547,208 ops/sec ±1.23% (86 runs sampled)
+FastFunc forEach, direct call x 8,230,922 ops/sec ±0.99% (86 runs sampled)
+Fastest is FastFunc forEach, direct call
+
+Native forEach x 782,526 ops/sec ±0.94% (89 runs sampled)
+FastFunc forEachIdx x 7,638,880 ops/sec ±0.84% (87 runs sampled)
+FastFunc forEachIdx, direct call x 8,228,955 ops/sec ±0.81% (88 runs sampled)
+Fastest is FastFunc forEachIdx, direct call
+
+Native filter x 535,136 ops/sec ±1.21% (85 runs sampled)
+FastFunc filter x 2,795,295 ops/sec ±0.65% (89 runs sampled)
+FastFunc filter, direct call x 2,870,826 ops/sec ±0.48% (90 runs sampled)
+Fastest is FastFunc filter, direct call
+
+Native find x 1,762,935 ops/sec ±1.01% (82 runs sampled)
+FastFunc find x 9,717,422 ops/sec ±0.97% (88 runs sampled)
+FastFunc find, direct call x 11,302,762 ops/sec ±1.32% (84 runs sampled)
+Fastest is FastFunc find, direct call
+
+Native find x 1,788,581 ops/sec ±0.95% (86 runs sampled)
+FastFunc findUniq x 8,033,447 ops/sec ±1.00% (84 runs sampled)
+FastFunc findUniq, direct call x 8,478,097 ops/sec ±0.92% (88 runs sampled)
+Fastest is FastFunc findUniq, direct call
+
+Native findIndex x 1,762,718 ops/sec ±1.07% (86 runs sampled)
+FastFunc findIndex x 9,685,936 ops/sec ±1.73% (87 runs sampled)
+FastFunc findIndex, direct call x 11,609,951 ops/sec ±1.11% (81 runs sampled)
+Fastest is FastFunc findIndex, direct call
+
+Native reduce x 755,679 ops/sec ±0.94% (85 runs sampled)
+FastFunc reduce x 7,333,575 ops/sec ±0.94% (87 runs sampled)
+FastFunc reduce, direct call x 7,029,473 ops/sec ±1.14% (83 runs sampled)
+Fastest is FastFunc reduce
+
+Native reduceRight x 186,090 ops/sec ±1.44% (83 runs sampled)
+FastFunc reduceRight x 6,403,354 ops/sec ±0.98% (87 runs sampled)
+FastFunc reduceRight, direct call x 6,825,482 ops/sec ±0.93% (87 runs sampled)
+Fastest is FastFunc reduceRight, direct call
+
+name: node
+sourceUrl: https://nodejs.org/download/release/v9.0.0/node-v9.0.0.tar.gz
+headersUrl: https://nodejs.org/download/release/v9.0.0/node-v9.0.0-headers.tar.gz
+arch: x64
+platform: darwin
