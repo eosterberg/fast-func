@@ -10,7 +10,7 @@
   "scripts": {
     "test": "jasmine",
     "compile": "node src/build.js; rollup -c",
-    "benchmark": "node benchmark.js",
+    "benchmark": "node benchmark/benchmark.js",
     "preview": "node src/preview.js"
   },
   "repository": {
