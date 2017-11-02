@@ -8,6 +8,14 @@ const fullArgDescription = argType => {
   }
 }
 
+const docsArgNames = args => args.map(arg => {
+  switch (arg) {
+    case 'arr': return 'array'
+    case 'fn': return 'iteratee'
+    case 'acc': return 'accumulator'
+  }
+}).join(', ')
+
 const loopBasedFunction = (template) => {
   const indent1 = createIndenter(1, template.indentation)
   const indent2 = createIndenter(2, template.indentation)
@@ -54,7 +62,7 @@ const loopBasedFunction = (template) => {
 }
 
 const buildLib = (libName, template) => {
-  const libCode = Object.entries(template.functions)
+  return Object.entries(template.functions)
   .filter(entries => entries[1].includedInLibs.includes(libName))
   .map(entries => {
     const [name, template] = entries
@@ -65,11 +73,20 @@ const buildLib = (libName, template) => {
     return code
   })
   .join('\n\n')
+}
 
-  return libCode
+const buildDocs = (libName, template) => {
+  return Object.entries(template.functions)
+  .filter(entries => entries[1].includedInLibs.includes(libName))
+  .map(entries => {
+    const [name, template] = entries
+    return `\`.${name}(${docsArgNames(template.argList)})\`\n` + template.description
+  })
+  .join('\n\n')
 }
 
 module.exports = {
   loopBasedFunction,
-  buildLib
+  buildLib,
+  buildDocs
 }

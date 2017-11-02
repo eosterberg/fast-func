@@ -4,9 +4,9 @@ const util = require('util')
 const template = require('./template')
 const factory = require('./factory')
 const loopBasedFunction = factory.loopBasedFunction
-const buildLib = factory.buildLib
 const writeFile = util.promisify(fs.writeFile)
 const removeFile = util.promisify(fs.unlink)
+const readFile = util.promisify(fs.readFile)
 
 const distPath = path.resolve(__dirname + '/../dist')
 const atDistPath = fileName => path.resolve(distPath + '/' + fileName)
@@ -31,8 +31,18 @@ const startBuild = () => {
   })
 
   template.libs.forEach(libName => {
-    const libCode = buildLib(libName, template)
+    const libCode = factory.buildLib(libName, template)
     writeFiles.push(writeFile(atDistPath(libName + '.js'), libCode))
+
+    if (libName === template.libs[0]) {
+      const readmePromise = readFile(path.resolve(__dirname + '/readmeTemplate.md'), 'utf8')
+      .then(readme => {
+        readme += '\n' + factory.buildDocs(libName, template) + '\n'
+        const readmePath = path.resolve(__dirname + '/../readme.md')
+        return removeFile(readmePath).then(() => writeFile(readmePath, readme))
+      })
+      writeFiles.push(readmePromise)
+    }
   })
 
   Promise.all(writeFiles)
