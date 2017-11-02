@@ -20,6 +20,12 @@ See history [here](./benchmark/history)
 
 ## Api
 
+```
+// example:
+const fastFunc = require('fast-func')
+fastFunc.map([1, 2, 3], num => num * 2) // -> [2, 4, 6]
+```
+
 `.map(array, iteratee)`
 Like native `Array.prototype.map` except it
 runs from right->left and only invokes the iteratee

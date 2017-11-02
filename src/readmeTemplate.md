@@ -19,3 +19,9 @@ See history [here](./benchmark/history)
 `$ npm test`
 
 ## Api
+
+```
+// example:
+const fastFunc = require('fast-func')
+fastFunc.map([1, 2, 3], num => num * 2) // -> [2, 4, 6]
+```
