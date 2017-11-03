@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "jasmine",
-    "compile": "node src/build.js; rollup -c",
+    "compile": "node src/build.js; npx rollup -c; npx uglifyjs --compress --mangle -o dist/fast-func.min.js -- dist/fast-func-umd.js ",
     "benchmark": "node benchmark/benchmark.js",
     "preview": "node src/preview.js"
   },
@@ -28,6 +28,7 @@
     "jasmine": "^2.8.0",
     "rollup": "^0.50.0",
     "rollup-plugin-babel": "^3.0.2",
-    "rollup-plugin-node-resolve": "^3.0.0"
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "uglify-js": "^3.1.6"
   }
 }
