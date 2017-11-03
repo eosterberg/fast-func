@@ -3,7 +3,6 @@ const path = require('path')
 const util = require('util')
 const template = require('./template')
 const factory = require('./factory')
-const loopBasedFunction = factory.loopBasedFunction
 const writeFile = util.promisify(fs.writeFile)
 const removeFile = util.promisify(fs.unlink)
 const readFile = util.promisify(fs.readFile)
@@ -21,29 +20,19 @@ const startBuild = () => {
   }, {})
   template.functions = functions
 
-  let writeFiles = Object
-  .keys(functions)
-  .map(name => {
-    const fnSpec = functions[name]
-    const code = loopBasedFunction(fnSpec)
-    const filePath = atDistPath(name + '.js')
-    return writeFile(filePath, code)
-  })
-
-  template.libs.forEach(libName => {
+  let writeFiles = template.libs.map(libName => {
     const libCode = factory.buildLib(libName, template)
-    writeFiles.push(writeFile(atDistPath(libName + '.js'), libCode))
-
-    if (libName === template.libs[0]) {
-      const readmePromise = readFile(path.resolve(__dirname + '/readmeTemplate.md'), 'utf8')
-      .then(readme => {
-        readme += '\n' + factory.buildDocs(libName, template) + '\n'
-        const readmePath = path.resolve(__dirname + '/../readme.md')
-        return removeFile(readmePath).then(() => writeFile(readmePath, readme))
-      })
-      writeFiles.push(readmePromise)
-    }
+    return writeFile(atDistPath(libName + '.js'), libCode)
   })
+
+  // build readme:
+  const readmePromise = readFile(path.resolve(__dirname + '/readmeTemplate.md'), 'utf8')
+  .then(readme => {
+    readme += '\n' + factory.buildDocs(template.libs[0], template) + '\n'
+    const readmePath = path.resolve(__dirname + '/../readme.md')
+    return removeFile(readmePath).then(() => writeFile(readmePath, readme))
+  })
+  writeFiles.push(readmePromise)
 
   Promise.all(writeFiles)
   .then(() => {

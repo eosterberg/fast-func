@@ -86,7 +86,6 @@ const buildDocs = (libName, template) => {
 }
 
 module.exports = {
-  loopBasedFunction,
   buildLib,
   buildDocs
 }
